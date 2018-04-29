@@ -17,6 +17,13 @@ public class Item {
     public Item(){
     }
 
+    public Item (String name , String category, String code, int price){
+        this.name = name;
+        this.category = category;
+        this.code = code;
+        this.price = price;
+    }
+
     @Id
     @Column(name="barcode",length = 20,nullable = false)
     public String getCode(){
@@ -27,7 +34,7 @@ public class Item {
         this.code = code;
     }
 
-    @Column (name = "item_name", length = 255, nullable = false)
+    @Column (name = "item_name", length = 30, nullable = false)
     public String getName(){
         return this.name;
     }

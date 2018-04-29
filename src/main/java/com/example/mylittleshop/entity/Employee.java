@@ -1,59 +1,51 @@
 package com.example.mylittleshop.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name="emp")
-public class Employee {
-
-    private int id;
-    private String name;
-    private String password;
-    boolean isOwner;
-
+@Table(name="emp_shop")
+public class Employee implements Serializable {
     @Id
-    @Column(name = "emp_id",nullable = false)
-    public int getId() {
-        return this.id;
+    private String emp_username;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "emp_username",nullable = false,foreignKey = @ForeignKey(name = "EMP_SHOP_FK"))
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name="shop_id",nullable = false,foreignKey = @ForeignKey(name = "SHOP_EMP_FK"))
+    private Shop shop;
+
+    public Employee(){}
+
+    public Employee(Account account, Shop shop){
+        this.account = account;
+        this.shop = shop;
     }
 
-    public void setId(int id){
-        this.id = id;
-    }
-    @Column(name = "emp_name",length = 20,nullable = false)
-    public String getName(){
-        return name;
+    public String getUsername() {
+        return emp_username;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setUsername(String emp_username) {
+        this.emp_username = emp_username;
     }
 
-    @Column(name = "emp_password", length = 16, nullable = false)
-    public String getPassword() {
-        return password;
+    public Account getAccount(){
+        return account;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAccount(Account account){
+        this.account = account;
     }
 
-    public void setOwner(boolean owner ){
-        this.isOwner = owner;
+    public Shop getShop(){
+        return this.shop;
     }
 
-    public boolean isOwner() {
-        return isOwner;
+    public void setShop(Shop shop){
+        this.shop = shop;
     }
 
-    @Override
-    public String toString()  {
-        if(isOwner())
-        return "["+ this.name+","+ this.password+",Manager]";
-        else
-            return "["+ this.name+","+ this.password+",Employee]";
-    }
 }
