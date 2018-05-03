@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 
@@ -23,15 +25,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     SuccessHandler successHandler;
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         /*auth.inMemoryAuthentication()
                 .withUser("user").password("{noop}1").roles("EMPLOYEE")
                 .and()
                 .withUser("admin").password("{noop}1").roles("MANAGER");
-         */
+        */
 
     }
 
@@ -47,20 +54,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/","/api/**","/css/**","/js/**","/fonts/**","/images/**").permitAll()
+                .antMatchers("/","/api/**","/css/**","/js/**","/fonts/**","/images/**","/login**").permitAll()
                 .antMatchers("/admin/**").access("hasAnyRole('ROLE_MANAGER')")
                 .antMatchers("/emp/**").access("hasAnyRole('ROLE_EMPLOYEE')")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .formLogin().successHandler(successHandler)
                 .loginPage("/login")
-                .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=1")
                 .usernameParameter("username")//
                 .passwordParameter("password")
                 .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/")
+                .logout().logoutSuccessUrl("/login?logout")
                 .permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");

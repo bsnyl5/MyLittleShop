@@ -10,7 +10,7 @@ public class Account {
     private String username;
     @Column(name = "emp_name",length = 20,nullable = false)
     private String name;
-    @Column(name = "emp_password", length = 60, nullable = false)
+    @Column(name = "emp_password", length = 70, nullable = false)
     private String password;
     @Column(name = "active", length = 1, nullable = false)
     private boolean active;

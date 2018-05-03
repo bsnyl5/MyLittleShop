@@ -24,7 +24,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         boolean admin = false;
 
         for (GrantedAuthority auth : authentication.getAuthorities()) {
-            if ("MANAGER".equals(auth.getAuthority())){
+            if ("ROLE_MANAGER".equals(auth.getAuthority())){
                 admin = true;
             }
         }
