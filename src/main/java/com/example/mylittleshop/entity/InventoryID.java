@@ -1,19 +1,10 @@
 package com.example.mylittleshop.entity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
-public class InventoryID implements Serializable {
-    @ManyToOne
-    @JoinColumn(name="shop_id",nullable = false,foreignKey = @ForeignKey(name = "INVEN_SHOP_FK"))
+public class InventoryID  {
+
     private Shop shop;
-    @ManyToOne
-    @JoinColumn(name="barcode",nullable = false,foreignKey = @ForeignKey(name = "INVEN_ITEM_FK"))
     private Item item;
 
     public InventoryID(){}

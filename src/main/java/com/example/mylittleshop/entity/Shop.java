@@ -1,6 +1,8 @@
 package com.example.mylittleshop.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="shop")
@@ -17,17 +19,13 @@ public class Shop {
     public Shop (){
     }
 
-    public Shop(int id , String name  ){
+    public Shop(long id , String name  ){
         this.id = id;
         this.name = name;
     }
 
     public long getId(){
         return this.id;
-    }
-
-    public void setId(long id){
-        this.id = id;
     }
 
     public String getName(){

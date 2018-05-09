@@ -10,4 +10,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
 
+
 }

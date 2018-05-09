@@ -10,7 +10,7 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="shop_id",nullable = false,foreignKey = @ForeignKey(name = "SALE_SHOP_FK"))
     private Shop shop;
 
@@ -31,10 +31,6 @@ public class Sale {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Shop getShop() {

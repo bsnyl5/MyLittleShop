@@ -26,6 +26,7 @@ public class SaleController {
         return saleRepository.findAll();
     }
 
+
     @RequestMapping(value = "shop/{id}", method = RequestMethod.GET)
     public List<Sale> shop(@PathVariable("id") Long id, Model model) {
         Shop shop = shopRepository.findById(id).get();

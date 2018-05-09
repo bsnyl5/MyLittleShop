@@ -20,14 +20,22 @@
                     <a href="#" th:href="@{/}">Home</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_MANAGER')">
-                    <a href="#" th:href="@{/admin/shops}">Shops</a>
-                </li>
-                <li sec:authorize="hasRole('ROLE_MANAGER')">
                     <a href="#" th:href="@{/admin/items}">Items</a>
                 </li>
-
+                <li sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                    <a href="#" th:href="@{/emp/items}">Items</a>
+                </li>
                 <li sec:authorize="hasRole('ROLE_MANAGER')">
-                    <a href="#" th:href="@{/admin/employees}">Employees</a>
+                    <a href="#" th:href="@{/admin/password}">Password</a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_MANAGER')">
+                    <a href="#" th:href="@{/admin/account}">Accounts</a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                    <a href="#" th:href="@{/emp/report}">Report</a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_EMPLOYEE')">
+                    <a href="#" th:href="@{/emp/password}">Password</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

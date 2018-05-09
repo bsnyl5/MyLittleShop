@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table (name = "item")
@@ -60,4 +61,20 @@ public class Item {
     public void setPrice(int price){
         this.price = price;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(code, item.code);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(code);
+    }
+
 }

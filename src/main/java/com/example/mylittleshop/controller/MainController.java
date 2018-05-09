@@ -1,30 +1,24 @@
 package com.example.mylittleshop.controller;
 
-import com.example.mylittleshop.entity.Account;
-import com.example.mylittleshop.model.Password;
 import com.example.mylittleshop.repository.AccountRepository;
-import com.example.mylittleshop.support.Message;
+import com.example.mylittleshop.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.security.Principal;
-import java.util.Map;
+import org.unbescape.html.HtmlEscape;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class MainController {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
 
     @GetMapping("/")
@@ -36,14 +30,9 @@ public class MainController {
                     return "redirect:/admin";
                 }
             }
-            return "redirect:/employee";
+            return "redirect:/emp";
         }
         else return "redirect:/login";
-    }
-
-    @GetMapping("/admin")
-    String admin(){
-        return "admin";
     }
 
     @GetMapping("/login")
@@ -51,37 +40,26 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    String changePassword(@RequestParam Map<String, String> password, Model model, Principal principal, RedirectAttributes redirectAttributes){
-        String username = principal.getName();
-        System.out.println(password.get("old_password"));
-        System.out.println(password.get("new_password"));
-        System.out.println(password.get("confirm_password"));
-        PasswordEncoder passwordEncoder =
-                PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        String old_password = accountRepository.findByUsername(username).getPassword();
-        if(!passwordEncoder.matches(password.get("old_password"),old_password)){
-            redirectAttributes.addFlashAttribute("message",new Message("Wrong old password!",Message.Type.DANGER));
-            return "redirect:/admin";
+
+    @RequestMapping("/error.html")
+    public String error(HttpServletRequest request, Model model) {
+        model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
+        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append("<ul>");
+        while (throwable != null) {
+            errorMessage.append("<li>").append(HtmlEscape.escapeHtml5(throwable.getMessage())).append("</li>");
+            throwable = throwable.getCause();
         }
-
-        if(password.get("new_password").equals(password.get("confirm_password"))){
-
-            Account account = accountRepository.findByUsername(username);
-            account.setPassword(passwordEncoder.encode(password.get("new_password")));
-            accountRepository.save(account);
-            redirectAttributes.addFlashAttribute("message",new Message("Success",Message.Type.DANGER));
-            return "redirect:/admin";
-        }
-        else{
-            redirectAttributes.addFlashAttribute("message",new Message("Passwords not match",Message.Type.DANGER));
-            return "redirect:/admin";
-        }
-
-
+        errorMessage.append("</ul>");
+        model.addAttribute("errorMessage", errorMessage.toString());
+        return "error";
     }
 
-
-
+    /** Error page. */
+    @RequestMapping("/403.html")
+    public String forbidden() {
+        return "403";
+    }
 
 }

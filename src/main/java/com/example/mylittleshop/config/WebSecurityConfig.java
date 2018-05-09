@@ -9,10 +9,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+
 
 
 @Configuration
@@ -32,14 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-        /*auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}1").roles("EMPLOYEE")
-                .and()
-                .withUser("admin").password("{noop}1").roles("MANAGER");
-        */
-
     }
 
     @Override
@@ -54,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/","/api/**","/css/**","/js/**","/fonts/**","/images/**","/login**").permitAll()
+                .antMatchers("/","/css/**","/js/**","/fonts/**","/images/**","/login**","/test").permitAll()
                 .antMatchers("/admin/**").access("hasAnyRole('ROLE_MANAGER')")
                 .antMatchers("/emp/**").access("hasAnyRole('ROLE_EMPLOYEE')")
                 .anyRequest().authenticated()
@@ -66,11 +58,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/login?logout")
+                .logout()
+                .logoutSuccessUrl("/login?logout")
                 .permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
     }
-
-
 }

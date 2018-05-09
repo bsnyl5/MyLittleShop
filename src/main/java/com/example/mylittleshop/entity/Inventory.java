@@ -1,16 +1,14 @@
 package com.example.mylittleshop.entity;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "inventory")
 public class Inventory {
-    @EmbeddedId
+
     private InventoryID id;
-
-    @Column(name = "quantity",nullable = false)
     private int quantity;
-
+    public Inventory(){}
+    public Inventory(InventoryID id,int quantity){
+        this.id = id;
+        this.quantity=quantity;
+    }
     public InventoryID getId() {
         return this.id;
     }
