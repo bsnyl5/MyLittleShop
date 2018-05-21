@@ -21,14 +21,6 @@ function order_by_occurrence(arr) {
 }
 
 function load_quagga(){
-    $('#add').validate({ // initialize the plugin
-        rules: {
-            quantity: {
-                required: true,
-                digits: true
-            }
-        }
-    });
     $(".formValidate").validate();
     $(".quantityValidate").rules("add", {
         required:true,
@@ -65,10 +57,10 @@ function load_quagga(){
                         '                                    <h4 class="modal-title" >Edit item, barcode:' + data + ' </h4>\n' +
                         '                                </div>\n' +
                         '                                <div class="modal-body">\n' +
-                        '                                    <form class="formValidate" action="/api/item/shoppingCart/edit' + data + '" method="post">\n' +
+                        '                                    <form  action="/api/item/shoppingCart/edit' + data + '" method="post">\n' +
                         '                                        <div class="form-group">\n' +
                         '                                            <label>Quantity</label>\n' +
-                        '                                            <input type="text" class="form-control quantityValidate" required="required" name ="quantity">\n' +
+                        '                                            <input type="number" class="form-control" required="required" name ="quantity">\n' +
                         '                                        </div>\n' +
                         '\n' +
                         '                                        <button type="submit" class="btn btn-default">Submit</button>\n' +

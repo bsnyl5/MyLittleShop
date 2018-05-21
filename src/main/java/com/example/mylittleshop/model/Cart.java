@@ -22,9 +22,9 @@ public class Cart {
             list.add(new CartLine(item));
             return;
         }
-        for (CartLine line : list) {
-            if (item.equals(line.getItem())) {
-                line.setQuantity(line.getQuantity() + 1);
+        for(int i=0;i<this.list.size();i++){
+            if(list.get(i).getItem().equals(item)) {
+                list.set(i,new CartLine(item,list.get(i).getQuantity()+1));
                 return;
             }
         }
@@ -36,19 +36,18 @@ public class Cart {
             list.add(new CartLine(item,quantity));
             return;
         }
-        for (CartLine line : list) {
-            if (item.equals(line.getItem())) {
-                line.setQuantity(line.getQuantity() + 1);
+        for(int i=0;i<this.list.size();i++){
+            if(list.get(i).getItem().equals(item)) {
+                list.set(i,new CartLine(item,list.get(i).getQuantity()+quantity));
                 return;
             }
         }
-        list.add(new CartLine(item));
+        list.add(new CartLine(item,quantity));
     }
 
     public void removeItem(Item item){
-        for(CartLine line : list){
-            if(item.equals(line.getItem())) list.remove(line);
-            return;
+        for(int i=0;i<this.list.size();i++){
+            if(list.get(i).getItem().equals(item)) list.remove(i);
         }
     }
 

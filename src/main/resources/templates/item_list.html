@@ -24,11 +24,6 @@
                     }
                 }
             });
-            $(".formValidate").validate();
-            $(".priceValidate").rules("add", {
-                required:true,
-                digits:true
-            });
             $('#item-list').DataTable({
                 initComplete: function () {
                     this.api().columns([0,1,2,3]).every( function () {
@@ -155,7 +150,7 @@
 
                                         <div class="form-group">
                                             <label>Price:</label>
-                                            <input type="text" class="form-control priceValidate" required="required" name ="price" th:placeholder="${item.price}"  >
+                                            <input type="number" class="form-control priceValidate" required="required" name ="price" th:placeholder="${item.price}"  >
                                         </div>
                                         <button type="submit" class="btn btn-default">Submit</button>
 
